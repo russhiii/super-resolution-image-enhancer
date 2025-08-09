@@ -1,4 +1,4 @@
-# train.py (Corrected)
+# train.py 
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,7 +13,7 @@ from lpips import LPIPS
 from generator import Generator
 from discriminator import Discriminator
 
-# --- CONFIG ---
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 LEARNING_RATE = 2e-4
 BATCH_SIZE = 16
@@ -27,8 +27,7 @@ CHECKPOINT_DISC = f"{SAVE_MODEL_DIR}discriminator.pth"
 HR_IMAGE_SIZE = (256, 256)
 LR_IMAGE_SIZE = (64, 64)  # HR // 4
 
-# --- TRANSFORMS ---
-# Normalization is added to scale images to [-1, 1] to match the generator's tanh output.
+
 high_res_transform = T.Compose([
     T.Resize(HR_IMAGE_SIZE, interpolation=T.InterpolationMode.BICUBIC),
     T.ToTensor(),
@@ -127,4 +126,5 @@ if __name__ == "__main__":
         train_fn(loader, gen, disc, opt_gen, opt_disc, l1_loss, bce_loss, lpips_loss_fn)
         torch.save(gen.state_dict(), CHECKPOINT_GEN)
         torch.save(disc.state_dict(), CHECKPOINT_DISC)
+
         print("✅ Checkpoints saved")
