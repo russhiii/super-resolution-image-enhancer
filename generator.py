@@ -33,7 +33,6 @@ class Generator(nn.Module):
             nn.BatchNorm2d(64)
         )
 
-        # Upsample block x4
         self.upsample = nn.Sequential(
             self._upsample_block(64),
             self._upsample_block(64)
@@ -54,3 +53,4 @@ class Generator(nn.Module):
         x = self.mid(x) + initial
         x = self.upsample(x)
         return torch.tanh(self.final(x))
+
